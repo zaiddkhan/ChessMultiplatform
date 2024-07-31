@@ -4,7 +4,10 @@ import androidx.compose.ui.unit.IntOffset
 import chessmultiplatform.composeapp.generated.resources.Res
 import chessmultiplatform.composeapp.generated.resources.soldier_white
 import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.skia.PixelRef
+import pieces.dsl.DiagonalMovement
+import pieces.dsl.StraightMovement
+import pieces.dsl.getDiagonalMoves
+import pieces.dsl.getStraightMoves
 
 class Pawn (
     override val color : Pieces.Color,
@@ -20,11 +23,29 @@ class Pawn (
 
         val isFirstMove = position.y == 2 && color.isWhite ||
                 position.y == 7 && color.isBlack
-       return getStraightMoves(
-            pieces = pieces,
-            movement = if(color.isWhite) StraightMovement.Up else StraightMovement.Down,
-            maxMovements = if(isFirstMove) 2 else 1,
-           canCapture = false
-        )
+
+        return buildPieceMovement(
+            pieces
+        ){
+            straightMoves(
+                movement = if(color.isWhite) StraightMovement.Up else StraightMovement.Down,
+                maXMovements = if(isFirstMove) 2 else 1,
+                canCapture = false,
+
+            )
+            diagonalMoves(
+                movement = if(color.isWhite) DiagonalMovement.UpRight else DiagonalMovement.UpRight,
+                canCapture = false,
+                maXMovements = if(isFirstMove) 2 else 1,
+                captureOnly = true
+            )
+
+            diagonalMoves(
+                movement = if(color.isWhite) DiagonalMovement.UpLeft else DiagonalMovement.UpRight,
+                captureOnly = true,
+                maXMovements = 1
+            )
+        }
+
     }
 }

@@ -1,6 +1,7 @@
-package pieces
+package pieces.dsl
 
 import androidx.compose.ui.unit.IntOffset
+import pieces.Pieces
 
 enum class StraightMovement {
     Up, Down, Left, Right
@@ -10,7 +11,8 @@ fun Pieces.getStraightMoves(
     pieces: List<Pieces>,
     movement: StraightMovement,
     maxMovements: Int = 7,
-    canCapture: Boolean = true
+    canCapture: Boolean = true,
+    captureOnly: Boolean = false
 ): Set<IntOffset> {
     return getMoves(
         pieces = pieces,
@@ -44,30 +46,9 @@ fun Pieces.getStraightMoves(
 
         },
         maxMovements = maxMovements,
-        canCapture = canCapture
+        canCapture = canCapture,
+        captureOnly = captureOnly
     )
 }
-fun Pieces.getMoves(
-    pieces: List<Pieces>,
-    maxMovements : Int ,
-    getPosition : (Int) -> IntOffset,
-    canCapture : Boolean
-) : Set<IntOffset> {
-    val moves = mutableSetOf<IntOffset>()
-    for( i in 1..maxMovements) {
-        val targetOffset = getPosition(i)
-        val targetPiece = pieces.find {
-            it.position == targetOffset
-        }
-        if(targetPiece != null){
-            if(targetPiece.color != this.color && canCapture)
-                moves.add(targetOffset)
-            break;
-        }else{
-            moves.add(targetOffset)
 
-        }
-    }
-    return moves
 
-}
