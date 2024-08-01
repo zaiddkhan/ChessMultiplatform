@@ -2,6 +2,7 @@ package pieces
 
 import androidx.compose.ui.unit.IntOffset
 import chessmultiplatform.composeapp.generated.resources.Res
+import chessmultiplatform.composeapp.generated.resources.soldier_black
 import chessmultiplatform.composeapp.generated.resources.soldier_white
 import org.jetbrains.compose.resources.DrawableResource
 import pieces.dsl.DiagonalMovement
@@ -17,7 +18,15 @@ class Pawn (
     override val drawable: DrawableResource =
         if(color.isWhite)
             Res.drawable.soldier_white
-            else Res.drawable.soldier_white
+        else Res.drawable.soldier_black
+
+
+    companion object{
+        const val Type = 'P'
+    }
+
+    override val type: Char
+        get() = Type
 
     override fun getAvailableMoves(pieces: List<Pieces>): Set<IntOffset> {
 
@@ -28,22 +37,21 @@ class Pawn (
             pieces
         ){
             straightMoves(
-                movement = if(color.isWhite) StraightMovement.Up else StraightMovement.Down,
-                maXMovements = if(isFirstMove) 2 else 1,
+                movement = if (color.isWhite) StraightMovement.Up else StraightMovement.Down,
+                maXMovements = if (isFirstMove) 2 else 1,
                 canCapture = false,
-
-            )
-            diagonalMoves(
-                movement = if(color.isWhite) DiagonalMovement.UpRight else DiagonalMovement.UpRight,
-                canCapture = false,
-                maXMovements = if(isFirstMove) 2 else 1,
-                captureOnly = true
             )
 
             diagonalMoves(
-                movement = if(color.isWhite) DiagonalMovement.UpLeft else DiagonalMovement.UpRight,
+                movement = if (color.isWhite) DiagonalMovement.UpRight else DiagonalMovement.DownRight,
+                maXMovements = 1,
                 captureOnly = true,
-                maXMovements = 1
+            )
+
+            diagonalMoves(
+                movement = if (color.isWhite) DiagonalMovement.UpLeft else DiagonalMovement.DownLeft,
+                maXMovements = 1,
+                captureOnly = true,
             )
         }
 

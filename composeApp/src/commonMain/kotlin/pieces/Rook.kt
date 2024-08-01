@@ -19,4 +19,12 @@ class Rook(
             straightMoves()
         }
     }
+
+
+    override val type: Char
+        get() = Type
+
+    companion object{
+        const val Type = 'R'
+    }
 }

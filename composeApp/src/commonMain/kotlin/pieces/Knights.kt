@@ -11,6 +11,8 @@ class Knights(
     override var position : IntOffset
 ) : Pieces{
 
+    override val type: Char
+        get() = Type
     override val drawable: DrawableResource
          = if(color.isWhite) Res.drawable.horse_white else Res.drawable.horse_black
 
@@ -18,5 +20,9 @@ class Knights(
         return buildPieceMovement(pieces){
             getLMoves()
         }
+    }
+
+    companion object{
+        const val Type = 'N'
     }
 }

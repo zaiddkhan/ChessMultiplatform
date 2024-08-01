@@ -19,4 +19,11 @@ class Bishop(
             diagonalMoves()
         }
     }
+
+    override val type: Char
+        get() = Type
+
+    companion object{
+        const val Type = 'B'
+    }
 }
